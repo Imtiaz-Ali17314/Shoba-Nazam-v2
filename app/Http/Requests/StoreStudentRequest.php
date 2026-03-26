@@ -16,9 +16,12 @@ class StoreStudentRequest extends FormRequest
         return [
             'sname' => 'required|string|max:255',
             'fathername' => 'required|string|max:255',
-            'code' => 'required|string|unique:students,code',
+            'code' => [
+                'required',
+                'string',
+                \Illuminate\Validation\Rule::unique('students')->where('madrasa_id', auth()->user()->madrasa_id)->ignore($this->route('student'))
+            ],
             'class' => 'required|string',
-            'madrasa_id' => 'required|exists:madrasas,id',
         ];
     }
 }

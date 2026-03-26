@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest; // ← yahan add kiya
 use App\Models\Student;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
