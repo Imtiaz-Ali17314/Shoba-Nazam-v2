@@ -26,10 +26,15 @@ class DashboardController extends Controller
             ->get();
 
         // Records by month (current year)
-        $recordsByMonth = DisciplineRecord::select(DB::raw("MONTH(date) as month"), DB::raw("count(*) as total"))
-            ->whereYear('date', '=', date('Y'))
-            ->groupBy(DB::raw("MONTH(date)"))
-            ->orderBy('month', 'asc')
+        $recordsByMonth = DisciplineRecord::select(
+            DB::raw('YEAR(date) as year'),
+            DB::raw('MONTH(date) as month'),
+            DB::raw('count(*) as total')
+        )
+            ->where('date', '>=', now()->subMonths(4))
+            ->groupBy(DB::raw('YEAR(date), MONTH(date)'))
+            ->orderBy('year')
+            ->orderBy('month')
             ->get();
 
         // This month's records
