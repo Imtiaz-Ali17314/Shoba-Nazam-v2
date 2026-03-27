@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\BelongsToMadrasa;
 use App\Models\Madrasa;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, BelongsToMadrasa;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, BelongsToMadrasa;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'madrasa_id', // Add madrasa_id so it can be mass assigned if needed
+        'madrasa_id',
         'is_active',
     ];
 

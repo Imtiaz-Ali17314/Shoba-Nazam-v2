@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 trait BelongsToMadrasa
 {
-    /**
-     * Boot the trait and add global scope
-     */
     public static function bootBelongsToMadrasa()
     {
-        // Global scope: automatically filter queries by madrasa_id
+        // ✅ Global scope with table prefix
         static::addGlobalScope('madrasa_id', function (Builder $builder) {
             if ($madrasaId = self::currentMadrasaId()) {
-                $builder->where('madrasa_id', $madrasaId);
+
+                $table = $builder->getModel()->getTable();
+
+                $builder->where($table . '.madrasa_id', $madrasaId);
             }
         });
 
@@ -27,18 +27,12 @@ trait BelongsToMadrasa
         });
     }
 
-    /**
-     * Helper to get current madrasa_id
-     * Example: from logged-in user or session
-     */
     protected static function currentMadrasaId()
     {
-        // If user is logged in and has madrasa_id
         if (Auth::check() && isset(Auth::user()->madrasa_id)) {
             return Auth::user()->madrasa_id;
         }
 
-        // Fallback: get madrasa_id from session (optional)
         return session('madrasa_id', null);
     }
 }

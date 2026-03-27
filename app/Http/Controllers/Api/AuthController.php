@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest; // ← import kiya
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -12,9 +12,9 @@ class AuthController extends Controller
     /**
      * POST /api/login
      */
-    public function login(LoginRequest $request) // ← type-hint changed
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validated(); // ← validated data automatically
+        $credentials = $request->validated();
 
         // Attempt login
         if (!Auth::attempt($credentials)) {

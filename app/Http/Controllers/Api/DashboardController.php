@@ -21,6 +21,7 @@ class DashboardController extends Controller
         // Records by class (via student relationship) - Efficient database level grouping
         $recordsByClass = \App\Models\DisciplineRecord::join('students', 'discipline_records.student_id', '=', 'students.id')
             ->select('students.class', \Illuminate\Support\Facades\DB::raw('count(discipline_records.id) as total'))
+             ->where('discipline_records.madrasa_id', auth()->user()->madrasa_id)
             ->groupBy('students.class')
             ->get();
 

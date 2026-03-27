@@ -100,6 +100,11 @@
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" @click="closeModal"></div>
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden relative z-10 transform transition-all p-8">
           <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ editMode ? 'صارف میں ترمیم کریں' : 'نیا صارف بنائیں' }}</h2>
+         <!-- 🔹 Modal error -->
+          <div v-if="modalError"
+            class="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl font-medium flex items-center">
+            {{ modalError }}
+          </div>
 
           <form @submit.prevent="handleSubmit" class="space-y-4">
             <div class="space-y-1">
@@ -163,6 +168,7 @@ export default {
 
     const loading = ref(false)
     const error = ref(null)
+    const modalError = ref(null)
 
     const fetchUsers = async (page = 1) => {
       try {
@@ -201,17 +207,23 @@ export default {
     const handleSubmit = async () => {
       loading.value = true
       error.value = null
+      modalError.value = null
 
       try {
         if (editMode.value) {
           await axios.put(`/users/${form.value.id}`, form.value)
         } else {
+          console.log(form.value);
           await axios.post('/users', form.value)
         }
         closeModal()
         fetchUsers(users.value.current_page)
       } catch (err) {
-        error.value = err.response?.data?.message || 'Save failed'
+        if (showCreate.value) {
+          modalError.value = err.response?.data?.message || 'Save failed'
+        } else {
+          error.value = err.response?.data?.message || 'Save failed'
+        }
       } finally {
         loading.value = false
       }
@@ -219,6 +231,7 @@ export default {
 
     const closeModal = () => {
       showCreate.value = false
+      modalError.value = null
       editMode.value = false
       form.value = { id: null, name: '', email: '', password: '', role: 'admin' }
       error.value = null
@@ -236,6 +249,7 @@ export default {
       form,
       loading,
       error,
+      modalError,
       fetchUsers,
       changePage,
       editUser,

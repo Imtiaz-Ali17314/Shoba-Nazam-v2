@@ -7,7 +7,7 @@
         <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30 text-white me-3">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path></svg>
         </div>
-        <h1 class="text-2xl font-black text-gray-900 tracking-tight">شوبا نظام</h1>
+       <h1 class="text-2xl font-black text-gray-900 tracking-tight">شعبہ نظم</h1>
       </div>
 
       <!-- Navigation -->
