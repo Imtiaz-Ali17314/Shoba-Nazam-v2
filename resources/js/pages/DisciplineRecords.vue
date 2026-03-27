@@ -177,11 +177,10 @@ export default {
     const fetchMeta = async () => {
       try {
         const [studentsRes, typesRes] = await Promise.all([
-          axios.get('/students?per_page=1000'),
-          axios.get('/incident-types'),
+          axios.get('/students?all=1'),
+          axios.get('/incident-types?all=1'),
         ])
-
-        students.value = studentsRes.data.data
+        students.value = studentsRes.data
         types.value = typesRes.data
       } catch (err) {
         error.value = 'Failed to load filters'

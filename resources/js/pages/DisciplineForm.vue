@@ -16,7 +16,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2 md:col-span-2">
             <label class="block text-sm font-semibold text-gray-700">طالب علم <span class="text-red-500">*</span></label>
-            <select v-model="form.student_id" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors">
+            <select v-model="form.student_id" @change="onStudentChange" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors">
               <option value="" disabled>منتخب کریں...</option>
               <option v-for="s in students" :key="s.id" :value="s.id">{{ s.sname }} ({{ s.class }})</option>
             </select>
@@ -99,10 +99,10 @@ export default {
     const fetchMeta = async () => {
       try {
         const [studentsRes, typesRes] = await Promise.all([
-          axios.get('/students?per_page=1000'),
-          axios.get('/incident-types'),
+          axios.get('/students?all=1'),
+          axios.get('/incident-types?all=1'),
         ])
-        students.value = studentsRes.data.data
+        students.value = studentsRes.data
         types.value = typesRes.data
       } catch (err) {
         error.value = 'Failed to load students or incident types'
@@ -129,9 +129,7 @@ export default {
         } else {
           await axios.post('/discipline-records', form.value)
         }
-
-        router.push('/discipline')
-
+        router.push('/discipline-records')
       } catch (err) {
         error.value = err.response?.data?.message || 'Save failed'
       } finally {
@@ -139,8 +137,15 @@ export default {
       }
     }
 
+    const onStudentChange = () => {
+      const student = students.value.find(s => s.id === form.value.student_id)
+      if (student) {
+        form.value.class = student.class
+      }
+    }
+
     const goBack = () => {
-      router.push('/discipline')
+      router.push('/discipline-records')
     }
 
     onMounted(() => {
@@ -156,6 +161,7 @@ export default {
       error,
       isEdit,
       handleSubmit,
+      onStudentChange,
       goBack,
     }
   },

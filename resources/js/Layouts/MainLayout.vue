@@ -75,17 +75,19 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import axios from '../axios'
+import { useAuthStore } from '../stores/authStore'
 
 const router = useRouter()
+const auth = useAuthStore()
 
 const logout = async () => {
   try {
     await axios.post('/logout')
-    router.push('/login')
   } catch (e) {
-    // If token expired, still push to login
-    router.push('/login')
+    // If it fails (transient error), we still clear local session
   }
+  auth.logout()
+  router.push('/login')
 }
 </script>
 

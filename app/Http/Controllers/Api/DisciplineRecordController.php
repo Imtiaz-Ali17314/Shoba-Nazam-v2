@@ -26,12 +26,18 @@ class DisciplineRecordController extends Controller
             $query->where('incident_type_id', $request->incident_type_id);
         }
 
-        if ($request->from_date && $request->to_date) {
-            $query->whereBetween('date', [$request->from_date, $request->to_date]);
+        if ($request->date_from && $request->date_to) {
+            $query->whereBetween('date', [$request->date_from, $request->date_to]);
+        } elseif ($request->date_from) {
+            $query->where('date', '>=', $request->date_from);
+        } elseif ($request->date_to) {
+            $query->where('date', '<=', $request->date_to);
         }
 
-        if ($request->date) {
-            $query->whereDate('date', $request->date);
+        if ($request->class) {
+            $query->whereHas('student', function ($q) use ($request) {
+                $q->where('class', 'like', "%{$request->class}%");
+            });
         }
 
         $records = $query->latest()->paginate(10);

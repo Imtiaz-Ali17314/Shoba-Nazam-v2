@@ -15,7 +15,7 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles', 'madrasa')->latest()->get();
+        $users = User::with('roles', 'madrasa')->latest()->paginate(10);
 
         return response()->json($users);
     }

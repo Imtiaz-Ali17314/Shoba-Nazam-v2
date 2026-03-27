@@ -11,9 +11,11 @@ class Madrasa extends Model
 
     protected $fillable = [
         'name', 
+        'logo',
         'address', 
         'email', 
         'phone',
+        'primary_color',
         'academic_year'
     ];
 

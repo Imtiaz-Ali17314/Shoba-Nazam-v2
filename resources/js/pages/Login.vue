@@ -55,12 +55,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
+import { useAuthStore } from '../stores/authStore'
 
 export default {
   name: 'Login',
 
   setup() {
     const router = useRouter()
+    const auth = useAuthStore()
 
     const email = ref('')
     const password = ref('')
@@ -72,19 +74,17 @@ export default {
       error.value = null
 
       try {
-        // 1. CSRF cookie (Sanctum)
-        await axios.get('/sanctum/csrf-cookie')
-
-        // 2. Login request
-        await axios.post('/login', {
+        // Login request
+        const res = await axios.post('/login', {
           email: email.value,
           password: password.value,
         })
 
-        // 3. Get user (optional but recommended)
-        await axios.get('/user')
+        // Store token and user
+        auth.setToken(res.data.token)
+        auth.setUser(res.data.user)
 
-        // 4. Redirect to dashboard
+        // Redirect to dashboard
         router.push('/dashboard')
 
       } catch (err) {

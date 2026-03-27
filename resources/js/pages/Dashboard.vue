@@ -107,22 +107,38 @@ export default {
 
     const renderChart = () => {
       const ctx = document.getElementById('recordsChart')
+      if (!ctx) return
 
       if (chartInstance) {
         chartInstance.destroy()
       }
 
+      const monthNames = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"]
+
       chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: stats.value.monthly_records.map(item => item.month),
+          labels: (stats.value.records_by_month || []).map(item => monthNames[item.month - 1]),
           datasets: [
             {
-              label: 'Records',
-              data: stats.value.monthly_records.map(item => item.count),
+              label: 'ریکارڈز',
+              data: (stats.value.records_by_month || []).map(item => item.total),
+              backgroundColor: 'rgba(79, 70, 229, 0.8)',
+              borderRadius: 8,
             },
           ],
         },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { display: false } },
+            x: { grid: { display: false } }
+          }
+        }
       })
     }
 
@@ -133,6 +149,7 @@ export default {
     return {
       stats,
       error,
+      fetchDashboard
     }
   },
 }

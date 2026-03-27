@@ -21,6 +21,10 @@ class IncidentTypeController extends Controller
             $query->where('name', 'like', "%{$request->search}%");
         }
 
+        if ($request->all) {
+            return response()->json($query->orderBy('name')->get());
+        }
+
         $types = $query->latest()->paginate(10);
 
         return response()->json($types);

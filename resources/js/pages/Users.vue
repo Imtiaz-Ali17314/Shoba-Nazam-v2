@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
-            <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50/50 transition-colors group">
+            <tr v-for="user in users.data" :key="user.id" class="hover:bg-gray-50/50 transition-colors group">
               <td class="py-3 px-6">
                 <div class="flex items-center">
                   <div class="h-10 w-10 flex-shrink-0 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center font-bold text-lg me-3">
@@ -63,7 +63,7 @@
                 </div>
               </td>
             </tr>
-            <tr v-if="!users || users.length === 0">
+            <tr v-if="!users.data || users.data.length === 0">
               <td colspan="5" class="py-12 text-center text-gray-500">
                 <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 <div class="text-lg">کوئی صارف نہیں ملا</div>
@@ -71,6 +71,21 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination -->
+      <div v-if="users.total > users.per_page" class="bg-gray-50/50 p-4 border-t border-gray-100 flex items-center justify-between">
+        <span class="text-sm text-gray-600">
+          صفحہ {{ users.current_page }} از {{ users.last_page }}
+        </span>
+        <div class="flex space-x-2 space-x-reverse">
+          <button :disabled="!users.prev_page_url" @click="changePage(users.current_page - 1)" class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium hover:bg-white disabled:opacity-50 disabled:bg-transparent transition-colors">
+            پچھلا
+          </button>
+          <button :disabled="!users.next_page_url" @click="changePage(users.current_page + 1)" class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium hover:bg-white disabled:opacity-50 disabled:bg-transparent transition-colors">
+            اگلا
+          </button>
+        </div>
       </div>
     </div>
 
@@ -143,19 +158,23 @@ export default {
       name: '',
       email: '',
       password: '',
-      roles: [],
+      role: 'admin',
     })
 
     const loading = ref(false)
     const error = ref(null)
 
-    const fetchUsers = async () => {
+    const fetchUsers = async (page = 1) => {
       try {
-        const res = await axios.get('/users')
+        const res = await axios.get('/users', { params: { page } })
         users.value = res.data
       } catch (err) {
         error.value = 'Failed to load users'
       }
+    }
+
+    const changePage = (page) => {
+      fetchUsers(page)
     }
 
     const editUser = (user) => {
@@ -165,15 +184,15 @@ export default {
         name: user.name,
         email: user.email,
         password: '',
-        role: user.roles.length > 0 ? user.roles[0].name : '',
+        role: user.roles.length > 0 ? user.roles[0].name : 'admin',
       }
       showCreate.value = true
     }
 
     const toggleStatus = async (user) => {
       try {
-        await axios.post(`/users/${user.id}/toggle-status`)
-        fetchUsers()
+        await axios.patch(`/users/${user.id}/toggle-status`)
+        fetchUsers(users.value.current_page)
       } catch (err) {
         error.value = 'Status update failed'
       }
@@ -206,7 +225,6 @@ export default {
     }
 
     onMounted(() => {
-      fetchRoles()
       fetchUsers()
     })
 

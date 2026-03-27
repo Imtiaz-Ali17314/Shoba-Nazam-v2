@@ -18,23 +18,30 @@ class DashboardController extends Controller
         // Total records
         $totalRecords = DisciplineRecord::count();
 
-        // Records by class
-        $recordsByClass = DisciplineRecord::select('class', DB::raw('count(*) as total'))
-            ->groupBy('class')
+        // Records by class (via student relationship) - Efficient database level grouping
+        $recordsByClass = \App\Models\DisciplineRecord::join('students', 'discipline_records.student_id', '=', 'students.id')
+            ->select('students.class', \Illuminate\Support\Facades\DB::raw('count(discipline_records.id) as total'))
+            ->groupBy('students.class')
             ->get();
 
         // Records by month (current year)
-        $recordsByMonth = DisciplineRecord::select(DB::raw("MONTH(created_at) as month"), DB::raw("count(*) as total"))
-            ->whereYear('created_at', date('Y'))
-            ->groupBy(DB::raw("MONTH(created_at)"))
-            ->orderBy('month')
+        $recordsByMonth = DisciplineRecord::select(DB::raw("MONTH(date) as month"), DB::raw("count(*) as total"))
+            ->whereYear('date', '=', date('Y'))
+            ->groupBy(DB::raw("MONTH(date)"))
+            ->orderBy('month', 'asc')
             ->get();
 
+        // This month's records
+        $thisMonthRecords = DisciplineRecord::whereYear('date', '=', date('Y'))
+            ->whereMonth('date', '=', date('m'))
+            ->count();
+
         return response()->json([
-            'total_students' => $totalStudents,
-            'total_records' => $totalRecords,
-            'records_by_class' => $recordsByClass,
-            'records_by_month' => $recordsByMonth,
+            'total_students'    => $totalStudents,
+            'total_records'     => $totalRecords,
+            'this_month_records'=> $thisMonthRecords,
+            'records_by_class'  => $recordsByClass,
+            'records_by_month'  => $recordsByMonth,
         ]);
     }
 }

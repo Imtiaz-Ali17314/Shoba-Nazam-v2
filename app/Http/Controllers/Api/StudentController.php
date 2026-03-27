@@ -30,7 +30,11 @@ class StudentController extends Controller
             $query->where('madrasa_id', $request->user()->madrasa_id);
         }
 
-        $students = $query->latest()->paginate(10);
+        if ($request->all) {
+            return response()->json($query->orderBy('sname', 'asc')->get());
+        }
+
+        $students = $query->latest()->paginate($request->per_page ?? 10);
 
         return response()->json($students);
     }

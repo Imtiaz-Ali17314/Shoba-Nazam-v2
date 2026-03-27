@@ -21,8 +21,11 @@ const routes = [
         children: [
             { path: "/dashboard", component: Dashboard },
             { path: "/students", component: Students },
-            { path: "/student-form", component: StudentForm },
-            { path: "/discipline-form", component: DisciplineForm },
+            { path: "/students/create", component: StudentForm },
+            { path: "/students/:id/edit", component: StudentForm },
+            { path: "/discipline", component: DisciplineRecords },
+            { path: "/discipline/create", component: DisciplineForm },
+            { path: "/discipline/:id/edit", component: DisciplineForm },
             { path: "/discipline-records", component: DisciplineRecords },
             { path: "/users", component: Users },
             { path: "/settings", component: Settings },
@@ -32,10 +35,34 @@ const routes = [
     { path: "/login", component: Login },
 ];
 
+import { useAuthStore } from "../stores/authStore";
+
 // Router create karo
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+// Guard
+router.beforeEach((to, from, next) => {
+    const auth = useAuthStore();
+    const publicPages = ['/login', '/setup'];
+    const authRequired = !publicPages.includes(to.path);
+
+    if (authRequired && !auth.token) {
+        return next('/login');
+    }
+
+    if (to.path === '/login' && auth.token) {
+        return next('/dashboard');
+    }
+    
+    // Redirect / to dashboard if logged in, else login
+    if (to.path === '/') {
+        return next(auth.token ? '/dashboard' : '/login');
+    }
+
+    next();
 });
 
 export default router;
