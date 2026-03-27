@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+   <div class="flex flex-col sm:flex-row items-center justify-between mb-5 gap-4">
       <div>
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">یوزر مینجمنٹ</h1>
+       <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-4">یوزر مینجمنٹ</h1>
         <p class="text-sm text-gray-500 mt-1 font-medium">سسٹم کے صارفین، ان کے رولز اور رسائی کا کنٹرول</p>
       </div>
       

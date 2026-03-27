@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+   <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-5 gap-4">
       <div>
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">ڈسپلن ریکارڈز</h1>
+       <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-4">ڈسپلن ریکارڈز</h1>
         <p class="text-sm text-gray-500 mt-1 font-medium">طلباء کے ڈسپلن، کارروائیوں اور حاضری کے معاملات</p>
       </div>
 
