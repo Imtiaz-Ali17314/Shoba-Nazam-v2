@@ -12,7 +12,7 @@
             <router-link to="/students">طلباء</router-link>
           </li>
           <li class="p-2 hover:bg-gray-200">
-            <router-link to="/discipline">ڈسپلن</router-link>
+           <router-link to="/discipline-records">ڈسپلن</router-link>
           </li>
           <li class="p-2 hover:bg-gray-200">
             <router-link to="/users">صارفین</router-link>
@@ -48,9 +48,9 @@
 </template>
 
 <script setup>
-// Koi JS logic agar zarurat ho to yahan add karo
+// JS logic agar zarurat ho to yahan
 </script>
 
 <style scoped>
-/* Optional: RTL support aur simple styles */
+/* Optional: additional RTL or layout styling */
 </style>

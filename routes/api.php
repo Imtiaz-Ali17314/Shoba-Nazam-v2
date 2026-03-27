@@ -6,46 +6,55 @@ use App\Http\Controllers\Api\IncidentTypeController;
 use App\Http\Controllers\Api\SetupController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\UserManagementController;
+use App\Http\Controllers\Api\MadrasaController;
 use Illuminate\Support\Facades\Route;
 
-// Setup routes
+// ------------------------
+// Setup routes (public)
+// ------------------------
 Route::get('/setup/status', [SetupController::class, 'status']);
 Route::post('/setup', [SetupController::class, 'store']);
 
-// Auth routes
+// ------------------------
+// Auth routes (public)
+// ------------------------
 Route::post('/login', [AuthController::class, 'login']);
 
-// Protected routes (Sanctum)
+// ------------------------
+// Protected routes (Sanctum + Madrasa middleware)
+// ------------------------
 Route::middleware(['auth:sanctum', 'madrasa'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']); // Logout
-    Route::get('/user', [AuthController::class, 'user']);       // Current logged-in user info
 
-    Route::apiResource('students', StudentController::class);              // CRUD students
-    Route::apiResource('discipline-records', DisciplineRecordController::class); // CRUD discipline records
-    Route::apiResource('incident-types', IncidentTypeController::class);   // CRUD incident types
+    // Auth
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
 
-    Route::get('/dashboard', [DashboardController::class, 'index']);      // Dashboard data
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
+    // Students CRUD
+    Route::apiResource('students', StudentController::class);
+
+    // Discipline Records CRUD
+    Route::apiResource('discipline-records', DisciplineRecordController::class);
+
+    // Incident Types CRUD
+    Route::apiResource('incident-types', IncidentTypeController::class);
+
+    // Madrasa Settings
+    Route::get('/madrasa', [MadrasaController::class, 'show']);
+    Route::post('/madrasa', [MadrasaController::class, 'update']); // multipart/form-data for logo
+
+    // ------------------------
     // User Management (Admin only)
+    // ------------------------
     Route::middleware('role:admin')->group(function () {
-        Route::get('/users', [\App\Http\Controllers\Api\UserManagementController::class, 'index']);
-        Route::post('/users', [\App\Http\Controllers\Api\UserManagementController::class, 'store']);
-        Route::get('/users/{id}', [\App\Http\Controllers\Api\UserManagementController::class, 'show']);
-        Route::put('/users/{id}', [\App\Http\Controllers\Api\UserManagementController::class, 'update']);
-        Route::delete('/users/{id}', [\App\Http\Controllers\Api\UserManagementController::class, 'destroy']);
-        Route::post('/users/{id}/toggle-status', [\App\Http\Controllers\Api\UserManagementController::class, 'toggleStatus']);
+        Route::get('/users', [UserManagementController::class, 'index']);
+        Route::post('/users', [UserManagementController::class, 'store']);
+        Route::get('/users/{id}', [UserManagementController::class, 'show']);
+        Route::put('/users/{id}', [UserManagementController::class, 'update']);
+        Route::patch('/users/{id}/toggle-status', [UserManagementController::class, 'toggleStatus']);
+        Route::delete('/users/{id}', [UserManagementController::class, 'destroy']);
     });
 });
-
-//  Student routes
-// GET /api/students?search=ali&page=1  --> List with pagination
-
-// DisciplineRecord routes
-// GET /api/discipline-records?from_date=2026-01-01&to_date=2026-01-31  --> Date Range
-// GET /api/discipline-records?date=2026-01-15   --->   Single Date
-// GET /api/discipline-records?student_id=5  ---> Student Filter
-// GET /api/discipline-records?incident_type_id=2  --->  Incident Type Filter
-// GET /api/discipline-records?student_id=5&incident_type_id=2&from_date=2026-01-01&to_date=2026-01-31    ---> Combined filters
-
-// IncidentType routes
-// GET /api/incident-types?search=later&page=1  --> List with pagination

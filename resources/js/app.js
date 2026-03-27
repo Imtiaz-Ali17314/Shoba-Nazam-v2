@@ -1,7 +1,9 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import router from "./router";
+import App from "../js/Layouts/MainLayout.vue";
 
-const app = createApp({});
+const app = createApp(App);
 
 // Use Pinia
 const pinia = createPinia();
