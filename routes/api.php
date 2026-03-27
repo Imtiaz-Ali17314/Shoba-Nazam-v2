@@ -43,8 +43,8 @@ Route::middleware(['auth:sanctum', 'madrasa'])->group(function () {
     Route::apiResource('incident-types', IncidentTypeController::class);
 
     // Madrasa Settings
-    Route::get('/madrasa', [MadrasaController::class, 'show']);
-    Route::post('/madrasa', [MadrasaController::class, 'update']); // multipart/form-data for logo
+    Route::get('/madrasa-info', [MadrasaController::class, 'show']);
+    Route::post('/madrasa-info', [MadrasaController::class, 'update']); // multipart/form-data for logo
 
     // ------------------------
     // User Management (Admin only)

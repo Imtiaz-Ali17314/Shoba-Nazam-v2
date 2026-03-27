@@ -112,8 +112,9 @@ export default {
 
     const fetchSettings = async () => {
       try {
-        const res = await axios.get('/madrasa')
+        const res = await axios.get('/madrasa-info')
         const data = res.data
+        console.log(data);
         form.value = {
           name: data.name || '',
           logo: null,
@@ -149,11 +150,12 @@ export default {
           }
         }
 
-        await axios.post('/madrasa', formData, {
+        await axios.post('/madrasa-info', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
 
         alert('Settings saved successfully!')
+        window.location.reload()
 
       } catch (err) {
         error.value = err.response?.data?.message || 'Save failed'
