@@ -83,9 +83,18 @@
     </div>
 
     <!-- Charts Area -->
-    <div class="bg-white rounded-2xl p-6 shadow-xl shadow-gray-200/40 border border-gray-100 mt-6">
-      <h3 class="text-xl font-bold text-gray-800 mb-6">ماہانہ ڈسپلن ریکارڈز</h3>
-     <div class="relative w-full h-[400px] chart-container">
+   <div class="bg-white rounded-2xl p-6 shadow-xl shadow-gray-200/40 border border-gray-100 mt-6">
+     <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold text-gray-800">ماہانہ ڈسپلن ریکارڈز</h3>
+
+        <!-- Styled Dropdown -->
+        <select v-model="chartType" class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700">
+          <option value="monthly">ماہانہ وار</option>
+          <option value="class">درجہ وار</option>
+        </select>
+      </div>
+
+      <div class="relative w-full h-[400px] chart-container">
         <canvas id="recordsChart"></canvas>
       </div>
     </div>
@@ -104,7 +113,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from '../axios'
 import Chart from 'chart.js/auto'
 
@@ -116,25 +125,28 @@ export default {
       total_students: 0,
       total_records: 0,
       this_month_records: 0,
-      monthly_records: [],
+      records_by_month: [],
+      records_by_class: []
     })
 
     const error = ref(null)
+    const chartType = ref('monthly') // default: ماہانہ وار
     let chartInstance = null
+    const monthNames = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"]
 
+    // Fetch dashboard data
     const fetchDashboard = async () => {
       try {
         const res = await axios.get('/dashboard')
-
         stats.value = res.data
-
-        renderChart()
-
+        renderChart() // initial render
       } catch (err) {
-        error.value = 'Failed to load dashboard'
+        error.value = 'Dashboard data load کرنے میں مسئلہ ہوا'
+        console.error(err)
       }
     }
 
+    // Render Chart
     const renderChart = () => {
       const ctx = document.getElementById('recordsChart')
       if (!ctx) return
@@ -143,16 +155,25 @@ export default {
         chartInstance.destroy()
       }
 
-      const monthNames = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"]
+      let labels = []
+      let data = []
+
+      if (chartType.value === 'monthly') {
+        labels = stats.value.records_by_month.map(item => monthNames[item.month - 1])
+        data = stats.value.records_by_month.map(item => item.total)
+      } else if (chartType.value === 'class') {
+        labels = stats.value.records_by_class.map(item => item.class)
+        data = stats.value.records_by_class.map(item => item.total)
+      }
 
       chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: (stats.value.records_by_month || []).map(item => monthNames[item.month - 1]),
+          labels,
           datasets: [
             {
               label: 'ریکارڈز',
-              data: (stats.value.records_by_month || []).map(item => item.total),
+              data,
               backgroundColor: 'rgba(79, 70, 229, 0.8)',
               borderRadius: 8,
             },
@@ -172,6 +193,11 @@ export default {
       })
     }
 
+    // Watch chartType for dropdown change
+    watch(chartType, () => {
+      renderChart()
+    })
+
     onMounted(() => {
       fetchDashboard()
     })
@@ -179,6 +205,7 @@ export default {
     return {
       stats,
       error,
+      chartType,
       fetchDashboard
     }
   },

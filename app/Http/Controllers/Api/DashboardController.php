@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Student;
 use App\Models\DisciplineRecord;
+use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -19,9 +18,9 @@ class DashboardController extends Controller
         $totalRecords = DisciplineRecord::count();
 
         // Records by class (via student relationship) - Efficient database level grouping
-        $recordsByClass = \App\Models\DisciplineRecord::join('students', 'discipline_records.student_id', '=', 'students.id')
-            ->select('students.class', \Illuminate\Support\Facades\DB::raw('count(discipline_records.id) as total'))
-             ->where('discipline_records.madrasa_id', auth()->user()->madrasa_id)
+        $recordsByClass = DisciplineRecord::join('students', 'discipline_records.student_id', '=', 'students.id')
+            ->select('students.class', DB::raw('count(discipline_records.id) as total'))
+            ->where('discipline_records.madrasa_id', auth()->user()->madrasa_id)
             ->groupBy('students.class')
             ->get();
 
@@ -31,7 +30,11 @@ class DashboardController extends Controller
             DB::raw('MONTH(date) as month'),
             DB::raw('count(*) as total')
         )
-            ->where('date', '>=', now()->subMonths(4))
+            ->whereBetween('date', [
+                now()->subMonths(5)->startOfMonth(), // 3 months including current
+                now()->endOfMonth(),
+            ])
+            ->where('discipline_records.madrasa_id', auth()->user()->madrasa_id)
             ->groupBy(DB::raw('YEAR(date), MONTH(date)'))
             ->orderBy('year')
             ->orderBy('month')
@@ -43,11 +46,11 @@ class DashboardController extends Controller
             ->count();
 
         return response()->json([
-            'total_students'    => $totalStudents,
-            'total_records'     => $totalRecords,
-            'this_month_records'=> $thisMonthRecords,
-            'records_by_class'  => $recordsByClass,
-            'records_by_month'  => $recordsByMonth,
+            'total_students' => $totalStudents,
+            'total_records' => $totalRecords,
+            'this_month_records' => $thisMonthRecords,
+            'records_by_class' => $recordsByClass,
+            'records_by_month' => $recordsByMonth,
         ]);
     }
 }
