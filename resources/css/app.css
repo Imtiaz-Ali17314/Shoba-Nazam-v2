@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
+@import "tailwindcss";
+
 /* 1️⃣ Global RTL direction */
 html, body {
     direction: rtl;
@@ -9,8 +12,6 @@ html, body {
     padding: 0;
 }
 
-/* 2️⃣ Import Noto Nastaliq Urdu font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
 
 /* 3️⃣ CSS variables for colors (optional, easier theme management) */
 :root {

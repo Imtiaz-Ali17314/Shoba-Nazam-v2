@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToMadrasa;
 
 class Student extends Model
 {
-    use BelongsToMadrasa;
+    use HasFactory, BelongsToMadrasa;
 
     protected $fillable = [
         'madrasa_id',  // Required for BelongsToMadrasa trait
