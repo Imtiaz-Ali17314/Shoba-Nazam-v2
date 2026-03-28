@@ -44,25 +44,25 @@ const router = createRouter({
 });
 
 // Guard
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
     const auth = useAuthStore();
-    const publicPages = ['/login', '/setup'];
+    const publicPages = ["/login", "/setup"];
     const authRequired = !publicPages.includes(to.path);
 
     if (authRequired && !auth.token) {
-        return next('/login');
+        return "/login";
     }
 
-    if (to.path === '/login' && auth.token) {
-        return next('/dashboard');
+    if (to.path === "/login" && auth.token) {
+        return "/dashboard";
     }
-    
+
     // Redirect / to dashboard if logged in, else login
-    if (to.path === '/') {
-        return next(auth.token ? '/dashboard' : '/login');
+    if (to.path === "/") {
+        return auth.token ? "/dashboard" : "/login";
     }
 
-    next();
+    return true;
 });
 
 export default router;

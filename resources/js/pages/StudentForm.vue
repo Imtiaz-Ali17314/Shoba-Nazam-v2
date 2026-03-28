@@ -3,7 +3,7 @@
     <div class="mb-8 border-b border-gray-200 pb-5 flex items-center justify-between">
       <div>
         <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">{{ isEdit ? 'طالب علم میں ترمیم' : 'نیا طالب علم' }}</h1>
-        <p class="text-sm text-gray-500 mt-1 font-medium">طالب علم کا ریکارڈ درج کریں یا درست کریں</p>
+       <p class="text-sm text-gray-500 mt-4 font-medium">طالب علم کا ریکارڈ درج کریں یا درست کریں</p>
       </div>
       <button type="button" @click="goBack" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -16,7 +16,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">طالب علم کا نام <span class="text-red-500">*</span></label>
-            <input v-model="form.sname" type="text" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors" placeholder="محمد ابوبکر..." />
+           <input v-model="form.sname" type="text" required
+              class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors"
+              placeholder="محمد علی..." />
           </div>
 
           <div class="space-y-2">
@@ -26,7 +28,9 @@
 
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">کوڈ (Code) <span class="text-red-500">*</span></label>
-            <input v-model="form.code" type="text" required dir="ltr" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors" placeholder="STD-1001" />
+           <input v-model="form.code" type="text" required
+              class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors"
+              placeholder="26-512" />
           </div>
 
           <div class="space-y-2">
