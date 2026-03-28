@@ -43,6 +43,13 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
+           <!-- Loader Row -->
+            <tr v-if="loading">
+              <td :colspan="5" class="py-12 text-center">
+                <!-- Use your Loader component here -->
+                <Loader :show="true" />
+              </td>
+            </tr>
             <tr v-for="student in students.data" :key="student.id" class="hover:bg-gray-50/50 transition-colors group">
               <td class="py-3 px-6">
                 <div class="flex items-center">
@@ -68,7 +75,7 @@
                 </div>
               </td>
             </tr>
-            <tr v-if="students.data.length === 0">
+           <tr v-if="!loading && students.data.length === 0">
               <td colspan="5" class="py-12 text-center text-gray-500">
                 <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <div class="text-lg">کوئی طالب علم نہیں ملا</div>
@@ -106,9 +113,13 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
+import Loader from '../components/loader.vue';
 
 export default {
   name: 'Students',
+  components: {
+    Loader
+  },
 
   setup() {
     const router = useRouter()
@@ -124,9 +135,14 @@ export default {
     const search = ref('')
     const error = ref(null)
     let timeout = null
+    const loading = ref(false)
 
     const fetchStudents = async (page = 1) => {
       try {
+        loading.value = true
+
+        await new Promise((resolve) => setTimeout(resolve, 6000));
+
         const res = await axios.get('/students', {
           params: {
             page,
@@ -138,6 +154,8 @@ export default {
 
       } catch (err) {
         error.value = 'Failed to load students'
+      } finally {
+        loading.value = false
       }
     }
 
@@ -179,6 +197,7 @@ export default {
       students,
       search,
       error,
+      loading,
       changePage,
       debouncedSearch,
       goToCreate,
