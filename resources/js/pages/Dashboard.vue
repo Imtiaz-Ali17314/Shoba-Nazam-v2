@@ -94,7 +94,11 @@
     <!-- Charts Area -->
    <div class="bg-white rounded-2xl p-6 shadow-xl shadow-gray-200/40 border border-gray-100 mt-6">
      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-800">ماہانہ ڈسپلن ریکارڈز</h3>
+       <h3 class="text-xl font-bold text-gray-800">
+          {{ chartType === 'monthly'
+            ? 'ماہانہ ڈسپلن ریکارڈز'
+            : 'درجہ وار ڈسپلن ریکارڈز' }}
+        </h3>
 
         <!-- Styled Dropdown -->
         <select v-model="chartType" class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700">
@@ -126,6 +130,9 @@ import { ref, onMounted, watch } from 'vue'
 import axios from '../axios'
 import Chart from 'chart.js/auto'
 import Spinner from '../components/Spinner.vue';
+import ChartDataLabels from 'chartjs-plugin-datalabels'
+
+Chart.register(ChartDataLabels)
 
 export default {
   name: 'Dashboard',
@@ -154,7 +161,8 @@ export default {
         loading.value = true
         const res = await axios.get('/dashboard')
         stats.value = res.data
-        renderChart() // initial render
+        console.log(stats.value);
+        renderChart()
       } catch (err) {
         error.value = 'Dashboard data load کرنے میں مسئلہ ہوا'
         console.error(err)
@@ -179,8 +187,9 @@ export default {
         labels = stats.value.records_by_month.map(item => monthNames[item.month - 1])
         data = stats.value.records_by_month.map(item => item.total)
       } else if (chartType.value === 'class') {
-        labels = stats.value.records_by_class.map(item => item.class)
-        data = stats.value.records_by_class.map(item => item.total)
+        const sortedClasses = [...stats.value.records_by_class].sort((a, b) => a.total - b.total)
+        labels = sortedClasses.map(item => item.class)
+        data = sortedClasses.map(item => item.total)
       }
 
       chartInstance = new Chart(ctx, {
@@ -200,7 +209,19 @@ export default {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: false }
+            legend: { display: false },
+            datalabels: {
+              align: 'start',
+              anchor: 'end',
+              color: '#000',
+              offset: 10,
+              textAlign: 'center',
+              font: {
+                weight: 'bold',
+                size: 16
+              },
+              formatter: (value) => value // value show karega
+            }
           },
           scales: {
             y: { beginAtZero: true, grid: { display: false } },
