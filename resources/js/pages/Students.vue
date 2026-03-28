@@ -141,8 +141,6 @@ export default {
       try {
         loading.value = true
 
-        await new Promise((resolve) => setTimeout(resolve, 6000));
-
         const res = await axios.get('/students', {
           params: {
             page,

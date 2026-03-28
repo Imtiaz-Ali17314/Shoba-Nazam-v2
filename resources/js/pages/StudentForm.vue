@@ -14,26 +14,26 @@
       <form @submit.prevent="handleSubmit" class="p-8 space-y-6">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-2">
+         <div class="space-y-1">
             <label class="block text-sm font-semibold text-gray-700">طالب علم کا نام <span class="text-red-500">*</span></label>
            <input v-model="form.sname" type="text" required
               class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors"
               placeholder="محمد علی..." />
           </div>
 
-          <div class="space-y-2">
+        <div class="space-y-1">
             <label class="block text-sm font-semibold text-gray-700">والد کا نام <span class="text-red-500">*</span></label>
             <input v-model="form.fathername" type="text" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors" placeholder="عبداللہ..." />
           </div>
 
-          <div class="space-y-2">
+        <div class="space-y-1">
             <label class="block text-sm font-semibold text-gray-700">کوڈ (Code) <span class="text-red-500">*</span></label>
            <input v-model="form.code" type="text" required
               class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors"
               placeholder="26-512" />
           </div>
 
-          <div class="space-y-2">
+        <div class="space-y-1">
             <label class="block text-sm font-semibold text-gray-700">درجہ / کلاس <span class="text-red-500">*</span></label>
             <input v-model="form.class" type="text" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-colors" placeholder="حفظ / درجہ اول..." />
           </div>
