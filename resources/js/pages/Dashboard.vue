@@ -35,7 +35,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-4xl font-black text-gray-900">{{ stats.total_students || 0 }}</p>
+         <p class="text-4xl font-black text-gray-900">
+            <Spinner v-if="loading" />
+            <span v-else>{{ stats.total_students }}</span>
+          </p>
         </div>
       </div>
 
@@ -56,7 +59,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-4xl font-black text-gray-900">{{ stats.total_records || 0 }}</p>
+         <p class="text-4xl font-black text-gray-900">
+            <Spinner v-if="loading" />
+            <span v-else>{{ stats.total_records }}</span>
+          </p>
         </div>
       </div>
 
@@ -76,7 +82,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-4xl font-black text-gray-900">{{ stats.this_month_records || 0 }}</p>
+         <p class="text-4xl font-black text-gray-900">
+            <Spinner v-if="loading" />
+            <span v-else>{{ stats.this_month_records }}</span>
+          </p>
         </div>
       </div>
 
@@ -116,9 +125,13 @@
 import { ref, onMounted, watch } from 'vue'
 import axios from '../axios'
 import Chart from 'chart.js/auto'
+import Spinner from '../components/Spinner.vue';
 
 export default {
   name: 'Dashboard',
+  components: {
+    Spinner
+  },
 
   setup() {
     const stats = ref({
@@ -130,19 +143,23 @@ export default {
     })
 
     const error = ref(null)
-    const chartType = ref('monthly') // default: ماہانہ وار
+    const chartType = ref('monthly')
     let chartInstance = null
     const monthNames = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"]
+    const loading = ref(true)
 
     // Fetch dashboard data
     const fetchDashboard = async () => {
       try {
+        loading.value = true
         const res = await axios.get('/dashboard')
         stats.value = res.data
         renderChart() // initial render
       } catch (err) {
         error.value = 'Dashboard data load کرنے میں مسئلہ ہوا'
         console.error(err)
+      } finally {
+        loading.value = false
       }
     }
 
@@ -205,6 +222,7 @@ export default {
     return {
       stats,
       error,
+      loading,
       chartType,
       fetchDashboard
     }
