@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SetupRequest; // ← import kiya
+use App\Http\Requests\SetupRequest;
 use App\Models\Madrasa;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
