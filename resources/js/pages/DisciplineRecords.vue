@@ -59,10 +59,15 @@
         </select>
       </div>
 
-      <div class="flex-1 min-w-[200px]">
+    <div class="flex-1 min-w-[200px]">
         <label class="block text-xs font-semibold text-gray-500 mb-1">درجہ/کلاس</label>
-       <input type="text" v-model="filters.class" @input="debouncedFetch" placeholder="کلاس..."
-          class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/50 outline-none text-sm transition-colors" />
+       <select v-model="filters.class" @change="fetchRecords"
+          class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/50 outline-none text-sm transition-colors">
+          <option value="">تمام</option>
+          <option v-for="c in uniqueClasses" :key="c.name" :value="c.name">
+            {{ c.name }}
+          </option>
+        </select>
       </div>
 
     <button @click="resetFilters"
@@ -184,7 +189,7 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
 import Loader from '../components/loader.vue';
@@ -211,6 +216,7 @@ export default {
     const selectedStudent = ref(null)
     const types = ref([])
     const loading = ref(false)
+    const allClasses = ref([]) 
 
     const filters = ref({
       date_from: '',
@@ -238,6 +244,14 @@ export default {
         console.log('Fetched records:', res.data.data)
 
         records.value = res.data
+
+        // 🔹 Populate allClasses only once
+        if (allClasses.value.length === 0) {
+          const classes = res.data.data
+            .map(r => r.student?.class)
+            .filter(Boolean)
+          allClasses.value = [...new Set(classes)]
+        }
       } catch (err) {
         error.value = 'Failed to load records'
       } finally {
@@ -257,6 +271,12 @@ export default {
         error.value = 'Failed to load filters'
       }
     }
+
+    // Computed: class options for dropdown
+    const uniqueClasses = computed(() => {
+      return allClasses.value.map(cls => ({ name: cls }))
+    })
+
 
     const changePage = (page) => {
       fetchRecords(page)
@@ -329,6 +349,7 @@ export default {
       filters,
       error,
       loading,
+      uniqueClasses,
       changePage,
       debouncedFetch,
       customLabel,
