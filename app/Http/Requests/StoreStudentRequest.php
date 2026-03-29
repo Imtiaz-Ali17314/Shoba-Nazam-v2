@@ -24,4 +24,14 @@ class StoreStudentRequest extends FormRequest
             'class' => 'required|string',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'code.unique' => 'یہ کوڈ پہلے سے موجود ہے۔ ہر طالب علم کا کوڈ منفرد ہونا چاہیے۔',
+            'sname.required' => 'طالب علم کا نام ضروری ہے۔',
+            'fathername.required' => 'طالب علم کے باپ کا نام ضروری ہے۔',
+            'class.required' => 'طالب علم کی کلاس ضروری ہے۔',
+        ];
+    }
 }

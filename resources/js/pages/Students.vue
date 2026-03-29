@@ -114,7 +114,6 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
 import Loader from '../components/loader.vue';
-import { data } from 'autoprefixer';
 
 export default {
   name: 'Students',

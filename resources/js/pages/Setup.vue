@@ -18,7 +18,7 @@
             <p class="text-indigo-100 text-sm leading-relaxed mb-6 font-medium">سسٹم کو فعال کرنے کیلئے مدرسے کی تفصیلات اور ایڈمن اکاؤنٹ ترتیب دیں۔ ایک بار سیٹ اپ ہونے پر آپ تمام فیچرز استعمال کر سکیں گے۔</p>
           </div>
           <div class="relative z-10 text-sm text-indigo-200">
-            © 2026 شوبا نظام
+           © 2026 شعبہ نظم
           </div>
         </div>
 
