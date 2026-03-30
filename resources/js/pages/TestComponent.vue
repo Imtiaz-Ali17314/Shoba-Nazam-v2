@@ -199,11 +199,56 @@
 
     </div>
 
+    <!-- MultiselectWithInfiniteScroll Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">10. MultiselectWithInfiniteScroll Component</h2>
+      
+      <div class="max-w-md">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Search Students (Paginated API Demo)</label>
+        <MultiselectWithInfiniteScroll 
+          ref="infiniteScrollSelect"
+          v-model="selectedStudent" 
+          label="sname"
+          placeholder="طالب علم تلاش کریں..."
+          :internalSearch="false"
+        />
+        <div class="mt-3 text-sm text-gray-500">
+          Selected: <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ selectedStudent ? selectedStudent.sname : 'None' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popovers Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">11. Custom & Raw Popovers</h2>
+      
+      <div class="flex flex-wrap gap-8 items-center mt-8 mb-4">
+        
+        <!-- CustomPopover Trigger -->
+        <span class="inline-flex items-center text-indigo-600 font-medium cursor-help border-b border-dashed border-indigo-400">
+          Hover for Custom Popover
+          <CustomPopover 
+            title="معلومات (Information)"
+            content="<p>This is a fully styled popover that renders HTML content safely. It has a beautiful rounded interface, subtle shadow depth, and automatic arrow positioning.</p>"
+          />
+        </span>
+
+        <!-- RawPopover Trigger -->
+        <span class="inline-flex items-center text-gray-700 font-medium cursor-help bg-gray-100 px-3 py-1.5 rounded-lg">
+          Hover for Tooltip (Raw Popover)
+          <RawPopover 
+            content="I am a simple dark-themed tooltip."
+          />
+        </span>
+
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Loader from '../components/Loader.vue';
 import Spinner from '../components/Spinner.vue';
 import MultiselectDropdown from '../components/MultiselectDropdown.vue';
@@ -214,6 +259,9 @@ import InfoBar from '../components/InfoBar.vue';
 import NoData from '../components/NoData.vue';
 import NotFound from '../components/NotFound.vue';
 import ReusableModal from '../components/ReusableModal.vue';
+import MultiselectWithInfiniteScroll from '../components/MultiselectWithInfiniteScroll.vue';
+import CustomPopover from '../components/CustomPopover.vue';
+import RawPopover from '../components/RawPopover.vue';
 
 export default {
   name: 'TestComponent',
@@ -227,10 +275,15 @@ export default {
     InfoBar,
     NoData,
     NotFound,
-    ReusableModal
+    ReusableModal,
+    MultiselectWithInfiniteScroll,
+    CustomPopover,
+    RawPopover
   },
   setup() {
     const selectedItem = ref(null);
+    const selectedStudent = ref(null);
+    const infiniteScrollSelect = ref(null);
     const dummyOptions = ref([
       { id: 1, name: 'Option A' },
       { id: 2, name: 'Option B' },
@@ -241,8 +294,17 @@ export default {
       alert("Modal Confirmed!");
     };
 
+    onMounted(() => {
+      // Trigger the initial data fetch for the infinite scroll component targeting students endpoint
+      if (infiniteScrollSelect.value) {
+        infiniteScrollSelect.value.getData('/students');
+      }
+    });
+
     return {
       selectedItem,
+      selectedStudent,
+      infiniteScrollSelect,
       dummyOptions,
       handleModalConfirm
     }
