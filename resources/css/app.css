@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
+@import "tailwindcss";
+
+/* 1️⃣ Global RTL direction */
+html, body {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', sans-serif;
+    background-color: #f7fafc; /* light gray */
+    color: #1a202c; /* dark text */
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 3️⃣ CSS variables for colors (optional, easier theme management) */
+:root {
+    --primary-color: #4f46e5;  /* Indigo */
+    --secondary-color: #fbbf24; /* Yellow */
+    --success-color: #16a34a;   /* Green */
+    --danger-color: #dc2626;    /* Red */
+    --light-color: #f7fafc;     /* Light gray background */
+    --dark-color: #1a202c;      /* Dark text */
+}
+
+/* 4️⃣ Headings and body font scaling */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Nastaliq Urdu', serif;
+}
+
+/* 5️⃣ Links default styling */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* 6️⃣ Utility classes */
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-success { color: var(--success-color); }
+.text-danger { color: var(--danger-color); }
+.bg-primary { background-color: var(--primary-color); color: #fff; }
+.bg-secondary { background-color: var(--secondary-color); color: #000; }
+.bg-success { background-color: var(--success-color); color: #fff; }
+.bg-danger { background-color: var(--danger-color); color: #fff; }
+
+/* 7️⃣ Scrollbar RTL fix (optional) */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+}
