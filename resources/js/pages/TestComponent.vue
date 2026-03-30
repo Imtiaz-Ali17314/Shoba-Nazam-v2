@@ -43,30 +43,32 @@
 
     <!-- Migrated Components Section -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">4. Migrated Core UI Components</h2>
+      <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-3">4. Migrated Core UI Components</h2>
       
-      <div class="space-y-6">
+      <div class="space-y-8">
         <!-- Buttons -->
-        <div>
-          <h3 class="font-medium text-gray-700 mb-2">Buttons</h3>
-          <div class="flex space-x-4 space-x-reverse">
-            <BgBtn label="Background Button" class="bg-indigo-600 text-white" />
-            <OutlineBtn label="Outline Button" class="border-indigo-600 text-indigo-600" />
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="font-bold text-gray-700 mb-4 underline decoration-indigo-200 underline-offset-4">Buttons</h3>
+          <div class="flex flex-wrap gap-4">
+            <BgBtn label="Background Button" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow" />
+            <OutlineBtn label="Outline Button" class="border-2 border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg" />
           </div>
         </div>
 
         <!-- ColorPicker -->
-        <div>
-          <h3 class="font-medium text-gray-700 mb-2">Color Picker</h3>
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="font-bold text-gray-700 mb-4 underline decoration-indigo-200 underline-offset-4">Color Picker</h3>
           <ColorPicker v-model="selectedColor" label="Choose Theme Color" />
-          <p class="text-xs text-gray-500 mt-1">Selected: {{ selectedColor }}</p>
+          <p class="text-xs text-gray-500 mt-2">Selected: <span class="font-mono bg-gray-100 px-1 rounded">{{ selectedColor }}</span></p>
         </div>
 
         <!-- Flatpickr -->
-        <div class="max-w-md">
-          <h3 class="font-medium text-gray-700 mb-2">Date Picker (Flatpickr)</h3>
-          <Flatpickr v-model="selectedDate" placeholder="Select a date..." />
-          <p class="text-xs text-gray-500 mt-1">Selected: {{ selectedDate }}</p>
+        <div class="pb-2">
+          <h3 class="font-bold text-gray-700 mb-4 underline decoration-indigo-200 underline-offset-4">Date Picker (Flatpickr)</h3>
+          <div class="max-w-md">
+            <Flatpickr v-model="selectedDate" placeholder="Select a date..." class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2" />
+            <p class="text-xs text-gray-500 mt-2">Selected: <span class="font-mono bg-gray-100 px-1 rounded">{{ selectedDate || 'None' }}</span></p>
+          </div>
         </div>
       </div>
     </div>
