@@ -143,16 +143,23 @@
 
     <!-- NoData & NotFound Section -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">8. NoData & NotFound Components</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">8. NoData & NotFound Components</h2>
+      
+      <div class="space-y-12">
+        <!-- NoData -->
         <div>
-          <h3 class="text-sm font-semibold text-gray-500 mb-2">NoData Empty State:</h3>
-          <NoData />
+          <h3 class="text-lg font-semibold text-gray-600 mb-4 tracking-tight">NoData Empty State:</h3>
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+            <NoData />
+          </div>
         </div>
+
+        <!-- NotFound -->
         <div>
-          <h3 class="text-sm font-semibold text-gray-500 mb-2">NotFound 404 View (scaled):</h3>
-          <div class="border rounded-2xl overflow-hidden h-[300px] relative bg-gray-50 transform origin-top-left">
-            <NotFound class="scale-50 sm:scale-[0.40] md:scale-[0.35] origin-top " />
+          <h3 class="text-lg font-semibold text-gray-600 mb-4 tracking-tight">NotFound 404 View:</h3>
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 relative overflow-hidden">
+            <!-- Render NotFound without scaling so it looks like a real page -->
+            <NotFound />
           </div>
         </div>
       </div>
