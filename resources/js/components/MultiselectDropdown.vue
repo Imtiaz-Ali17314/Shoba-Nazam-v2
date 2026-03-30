@@ -1,15 +1,7 @@
 <template>
-  <multiselect
-    v-model="internalValue"
-    :options="options"
-    :searchable="true"
-    :close-on-select="true"
-    :show-labels="false"
-    :placeholder="placeholder"
-    :track-by="trackBy"
-    :label="labelKey"
-    class="multiselect-custom w-full"
-  >
+ <multiselect v-model="internalValue" :options="enhancedOptions" :searchable="true" :internal-search="true"
+    :close-on-select="true" :show-labels="false" :placeholder="placeholder" :track-by="trackBy" label="__search"
+    class="multiselect-custom w-full">
     <!-- Option -->
     <template #option="{ option }">
       {{ formatOption(option) }}
@@ -31,47 +23,70 @@ export default {
   components: {
     Multiselect,
   },
+
   props: {
     modelValue: Object,
     options: {
       type: Array,
-      required: true,
+      default: () => [],
     },
-    placeholder: {
-      type: String,
-      default: "Select option",
-    },
+    placeholder: String,
 
     labelKey: {
       type: String,
       default: "name",
     },
+
     trackBy: {
       type: String,
       default: "id",
     },
 
     customLabel: Function,
+
+    searchFields: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   emits: ["update:modelValue"],
 
   setup(props, { emit }) {
+    // v-model binding
     const internalValue = computed({
       get: () => props.modelValue,
       set: (val) => emit("update:modelValue", val),
     });
 
+    // custom label formatter
     const formatOption = (option) => {
-      if (props.customLabel) {
-        return props.customLabel(option);
-      }
+      if (!option) return "";
+      if (props.customLabel) return props.customLabel(option);
       return option[props.labelKey];
     };
+
+    // 🔥 Multi-field searchable options
+    const enhancedOptions = computed(() => {
+      if (!props.searchFields.length) return props.options;
+
+      return props.options.map((option) => {
+        const searchText = props.searchFields
+          .map((field) => option[field] || "")
+          .join(" ")
+          .toLowerCase();
+
+        return {
+          ...option,
+          __search: searchText,
+        };
+      });
+    });
 
     return {
       internalValue,
       formatOption,
+      enhancedOptions,
     };
   },
 };
@@ -96,19 +111,13 @@ export default {
   color: #4338ca;
 }
 
-:deep(.multiselect__single) {
-  background: #f9fafb;
-  font-size: 0.9rem;
-}
-
+:deep(.multiselect__single),
 :deep(.multiselect__input) {
   background: #f9fafb;
   font-size: 0.9rem;
 }
 
 :deep(.multiselect__option) {
-  position: relative;
-  transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+  transition: all 0.2s ease;
 }
-
 </style>

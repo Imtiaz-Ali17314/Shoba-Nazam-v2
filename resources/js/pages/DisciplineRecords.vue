@@ -35,7 +35,7 @@
           طالب علم
         </label>
        <MultiselectDropdown v-model="selectedStudent" :options="students" placeholder="طالب علم تلاش کریں..."
-          labelKey="sname" trackBy="id" :customLabel="(option) => `${option.sname} (${option.code})`" />
+         labelKey="sname" trackBy="id" :searchFields="['sname', 'code']" :customLabel="customLabel" />
       </div>
 
       <div class="flex-1 min-w-[200px]">
