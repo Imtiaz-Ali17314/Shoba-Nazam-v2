@@ -34,20 +34,8 @@
        <label class="block text-xs font-semibold text-gray-500 mb-1">
           طالب علم
         </label>
-
-        <multiselect v-model="selectedStudent" :options="students" :searchable="true" :close-on-select="true"
-          :show-labels="false" :custom-label="customLabel" placeholder="طالب علم تلاش کریں..." label="sname"
-          track-by="id" class="multiselect-custom w-full">
-          <!-- Custom option -->
-          <template #option="{ option }">
-            {{ option.sname }} ({{ option.code }})
-          </template>
-
-          <!-- Selected label -->
-          <template #singleLabel="{ option }">
-            {{ option.sname }} ({{ option.code }})
-          </template>
-        </multiselect>
+       <MultiselectDropdown v-model="selectedStudent" :options="students" placeholder="طالب علم تلاش کریں..."
+          labelKey="sname" trackBy="id" :customLabel="(option) => `${option.sname} (${option.code})`" />
       </div>
 
       <div class="flex-1 min-w-[200px]">
@@ -193,14 +181,13 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
 import Loader from '../components/loader.vue';
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+import MultiselectDropdown from '../components/MultiselectDropdown.vue';
 
 export default {
   name: 'DisciplineRecords',
   components: {
     Loader,
-    Multiselect
+    MultiselectDropdown
   },
 
   setup() {
@@ -364,37 +351,5 @@ export default {
 </script>
 
 <style scoped>
-:deep(.multiselect-custom .multiselect__tags) {
-  width: 100%;
-  height: 35px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  font-size: 0.9rem;
-}
 
-:deep(.multiselect-custom.multiselect--active .multiselect__tags) {
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
-}
-
-:deep(.multiselect__single) {
-  background: #f9fafb;
-  font-size: 0.9rem;
-}
-
-:deep(.multiselect__input) {
-  background: #f9fafb;
-  font-size: 0.9rem;
-}
-
-:deep(.multiselect__option) {
-  position: relative;
-  transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
-}
-
-:deep(.multiselect__option--highlight) {
-  background-color: #eef2ff;
-  color: #4338ca;
-  padding-left: 14px;
-}
 </style>

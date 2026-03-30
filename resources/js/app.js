@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import router from "./router";
 import App from "./App.vue";
+import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const app = createApp(App);
 
