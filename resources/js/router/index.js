@@ -12,6 +12,7 @@ import DisciplineForm from "../pages/DisciplineForm.vue";
 import DisciplineRecords from "../pages/DisciplineRecords.vue";
 import Users from "../pages/Users.vue";
 import Settings from "../pages/Settings.vue";
+import TestComponent from "../pages/TestComponent.vue";
 
 // Routes define karo
 const routes = [
@@ -27,8 +28,9 @@ const routes = [
             { path: "/discipline/create", component: DisciplineForm },
             { path: "/discipline/:id/edit", component: DisciplineForm },
             { path: "/discipline-records", component: DisciplineRecords },
-            { path: "/users", component: Users },
-            { path: "/settings", component: Settings },
+            { path: "/users", component: Users, name: "صارفین" },
+            { path: "/settings", component: Settings, name: "سیٹنگز" },
+            { path: "/test", component: TestComponent, name: "ٹیسٹ" },
         ],
     },
     { path: "/setup", component: Setup },
