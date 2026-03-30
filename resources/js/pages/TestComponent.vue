@@ -68,6 +68,130 @@
       </div>
     </div>
 
+    <!-- OutlineBtn Component Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">5. OutlineBtn Component</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <OutlineBtn text="Primary Outline" />
+        
+        <OutlineBtn 
+          text="Danger Outline" 
+          color="border-red-500 text-red-500 hover:bg-red-50 hover:border-red-600 hover:text-red-600 focus:ring-red-500" 
+        />
+        
+        <OutlineBtn 
+          text="Loading State" 
+          :loading="true" 
+          loaderText="Processing..." 
+        />
+        
+        <OutlineBtn text="Icon Outline">
+          <template #icon>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </template>
+        </OutlineBtn>
+      </div>
+    </div>
+
+    <!-- LoaderComponent Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">6. LoaderComponent</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 mb-2">Block Loader:</h3>
+          <div class="bg-gray-50 border border-gray-200 rounded-lg h-32 flex items-center justify-center">
+            <LoaderComponent :show="true" loaderText="Please wait..." />
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 mb-2">Overlay Loader (covering container):</h3>
+          <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-6 relative overflow-hidden">
+            <p class="text-indigo-900 mb-4">This content is behind the loading overlay.</p>
+            <LoaderComponent :show="true" :overlay="true" loaderText="Processing Data" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- InfoBar Component Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">7. InfoBar Component</h2>
+      <div class="space-y-4">
+        <InfoBar 
+          color="info" 
+          context="اسسٹم کو اپڈیٹ کیا جا رہا ہے۔ براہ کرم کچھ دیر بعد کوشش کریں۔" 
+        />
+        
+        <InfoBar 
+          color="success" 
+          context="<strong>کامیابی!</strong> ریکارڈ کامیابی سے محفوظ کر لیا گیا ہے۔" 
+        />
+        
+        <InfoBar 
+          color="danger" 
+          context="ڈیٹا بیس سے رابطہ منقطع ہو گیا ہے۔" 
+        />
+        
+        <InfoBar color="warning">
+          یہ ایک <strong>کسٹم سلاٹ</strong> کا استعمال کر رہا ہے تاکہ زیادہ کنٹرول مل سکے۔
+        </InfoBar>
+      </div>
+    </div>
+
+    <!-- NoData & NotFound Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">8. NoData & NotFound Components</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 mb-2">NoData Empty State:</h3>
+          <NoData />
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 mb-2">NotFound 404 View (scaled):</h3>
+          <div class="border rounded-2xl overflow-hidden h-[300px] relative bg-gray-50 transform origin-top-left">
+            <NotFound class="scale-50 sm:scale-[0.40] md:scale-[0.35] origin-top " />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ReusableModal Section -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">9. ReusableModal Component</h2>
+      
+      <BgBtn text="Open Modal (Medium)" @click="$refs.myModal.openModal()" />
+      <BgBtn text="Open Modal (Small)" color="bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/30 ms-3" @click="$refs.smallModal.openModal()" />
+      
+      <ReusableModal 
+        ref="myModal" 
+        modalId="demo-modal" 
+        title="Sample Modal Title"
+        confirmText="Confirm Action"
+        @confirm="handleModalConfirm"
+      >
+        <template #body>
+           <p class="text-gray-600 leading-relaxed">This is a fully accessible, animated, and customizable modal component built with Tailwind CSS. It supports multiple sizes, click-outside-to-close, and custom slots for all sections!</p>
+        </template>
+      </ReusableModal>
+
+      <ReusableModal 
+        ref="smallModal" 
+        modalId="small-modal" 
+        modalSize="sm"
+        title="Warning"
+        confirmText="Delete"
+        cancelText="Go Back"
+      >
+        <template #body>
+           <p class="text-red-500 font-medium">Are you sure you want to delete this record? This action cannot be undone.</p>
+        </template>
+      </ReusableModal>
+
+    </div>
+
   </div>
 </template>
 
@@ -77,6 +201,12 @@ import Loader from '../components/Loader.vue';
 import Spinner from '../components/Spinner.vue';
 import MultiselectDropdown from '../components/MultiselectDropdown.vue';
 import BgBtn from '../components/BgBtn.vue';
+import OutlineBtn from '../components/OutlineBtn.vue';
+import LoaderComponent from '../components/LoaderComponent.vue';
+import InfoBar from '../components/InfoBar.vue';
+import NoData from '../components/NoData.vue';
+import NotFound from '../components/NotFound.vue';
+import ReusableModal from '../components/ReusableModal.vue';
 
 export default {
   name: 'TestComponent',
@@ -84,7 +214,13 @@ export default {
     Loader,
     Spinner,
     MultiselectDropdown,
-    BgBtn
+    BgBtn,
+    OutlineBtn,
+    LoaderComponent,
+    InfoBar,
+    NoData,
+    NotFound,
+    ReusableModal
   },
   setup() {
     const selectedItem = ref(null);
@@ -94,9 +230,14 @@ export default {
       { id: 3, name: 'Option C' },
     ]);
 
+    const handleModalConfirm = () => {
+      alert("Modal Confirmed!");
+    };
+
     return {
       selectedItem,
-      dummyOptions
+      dummyOptions,
+      handleModalConfirm
     }
   }
 }
