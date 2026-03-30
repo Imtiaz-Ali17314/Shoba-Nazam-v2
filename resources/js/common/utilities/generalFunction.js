@@ -1,4 +1,5 @@
-const cdnUrl = '';
+import { funcApi } from "@/common/services/api.service";
+import { cdnUrl } from "@/config";
 const browserApps = new Set([
     "Google Chrome",
     "Google Chrome Canary",
@@ -126,7 +127,13 @@ const funcGen = {
     },
 
     is_company() {
-        return false;
+       const comp_user_id = funcApi.getStoredObject("company")?.user_id;
+       const auth_user_id = funcApi.getStoredObject("authUser")?.id;
+        if (comp_user_id == auth_user_id) {
+            return true;
+        } else {
+            return false;
+        }
     },
  getLocalStorageSize() {
         let totalSize = 0;

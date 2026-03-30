@@ -1,17 +1,17 @@
 <template>
     <div class="color-picker-container">
-        <label v-if="label" class="block text-sm font-medium text-gray-700 flex items-center gap-2 mb-2">
+        <label v-if="label" class="form-label d-flex align-items-center gap-2">
             {{ label }}:
             <span 
                 v-if="modelValue" 
-                class="py-1 px-2 rounded border shadow-sm font-mono text-xs" 
+                class="py-1 px-2 rounded border shadow-sm" 
                 :style="{ backgroundColor: modelValue, color: funcGen.getReadableTextColor(modelValue) }"
             >
                 {{ modelValue }}
             </span>
         </label>
         
-        <div class="color-boxes flex gap-1 flex-wrap mb-2">
+        <div class="color-boxes d-flex gap-1 flex-wrap mb-2">
             <div 
                 v-for="color in validColors" 
                 :key="color" 
@@ -22,13 +22,13 @@
             ></div>
         </div>
         
-        <div class="flex items-center gap-2 mt-2" v-if="showCustom">
-            <label class="block text-sm font-medium text-gray-500 mb-0">Custom Color:</label>
+        <div class="d-flex align-items-center gap-2 mt-2" v-if="showCustom">
+            <label class="form-label mb-0 small text-muted">Custom Color:</label>
             <input 
                 :value="modelValue" 
                 @input="onCustomInput" 
                 type="color" 
-                class="p-0 border-0 rounded cursor-pointer" 
+                class="form-control form-control-color border-0 p-0" 
                 style="width: 32px; height: 32px;" 
                 title="System Color Picker"
             >
