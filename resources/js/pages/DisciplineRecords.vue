@@ -180,7 +180,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios'
-import Loader from '../components/loader.vue';
+import Loader from '../components/Loader.vue';
 import MultiselectDropdown from '../components/MultiselectDropdown.vue';
 
 export default {
