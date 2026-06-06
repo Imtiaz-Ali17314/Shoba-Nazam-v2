@@ -112,8 +112,8 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '../axios'
-import Loader from '../components/Loader.vue';
+import axios from '../../axios.js'
+import Loader from '../../components/Loader.vue';
 
 export default {
   name: 'Students',

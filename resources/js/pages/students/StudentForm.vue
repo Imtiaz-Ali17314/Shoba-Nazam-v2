@@ -63,7 +63,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from '../axios'
+import axios from '../../axios.js'
 
 export default {
   name: 'StudentForm',
