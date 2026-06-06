@@ -95,8 +95,8 @@
 <script>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from '../axios'
-import MultiselectDropdown from '../components/MultiselectDropdown.vue';
+import axios from '../../axios.js'
+import MultiselectDropdown from '../../components/MultiselectDropdown.vue';
 
 export default {
   name: 'DisciplineForm',

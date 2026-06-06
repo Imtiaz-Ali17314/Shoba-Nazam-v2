@@ -179,9 +179,9 @@
 <script>
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '../axios'
-import Loader from '../components/Loader.vue';
-import MultiselectDropdown from '../components/MultiselectDropdown.vue';
+import axios from '../../axios.js'
+import Loader from '../../components/Loader.vue';
+import MultiselectDropdown from '../../components/MultiselectDropdown.vue';
 
 export default {
   name: 'DisciplineRecords',
