@@ -54,8 +54,8 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '../axios'
-import { useAuthStore } from '../stores/authStore'
+import axios from '../../axios'
+import { useAuthStore } from '../../stores/authStore'
 
 export default {
   name: 'Login',

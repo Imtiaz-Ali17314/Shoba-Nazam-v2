@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 // Components import karo
 // Ye aapke resources/js/Components folder ke hisaab se paths change ho sakte hain
 import MainLayout from "../Layouts/MainLayout.vue";
-import Setup from "../pages/Setup.vue";
-import Login from "../pages/Login.vue";
+import Setup from "../pages/Authentication/Setup.vue";
+import Login from "../pages/Authentication/Login.vue";
 import Dashboard from "../pages/dashboard/Dashboard.vue";
 import Students from "../pages/students/Students.vue";
 import StudentForm from "../pages/students/StudentForm.vue";
