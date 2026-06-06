@@ -11,7 +11,7 @@ import StudentForm from "../pages/students/StudentForm.vue";
 import DisciplineForm from "../pages/discipline/DisciplineForm.vue";
 import DisciplineRecords from "../pages/discipline/DisciplineRecords.vue";
 import Users from "../pages/users/Users.vue";
-import Settings from "../pages/Settings.vue";
+import Settings from "../pages/settings/Settings.vue";
 import TestComponent from "../pages/TestComponent.vue";
 
 // Routes define karo
