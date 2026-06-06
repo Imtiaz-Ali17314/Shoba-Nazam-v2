@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "../Layouts/MainLayout.vue";
 import Setup from "../pages/Setup.vue";
 import Login from "../pages/Login.vue";
-import Dashboard from "../pages/Dashboard.vue";
+import Dashboard from "../pages/dashboard/Dashboard.vue";
 import Students from "../pages/Students.vue";
 import StudentForm from "../pages/StudentForm.vue";
 import DisciplineForm from "../pages/DisciplineForm.vue";

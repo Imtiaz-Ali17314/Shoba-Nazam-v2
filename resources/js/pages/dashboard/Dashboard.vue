@@ -127,9 +127,9 @@
 
 <script>
 import { ref, onMounted, watch } from 'vue'
-import axios from '../axios'
+import axios from '../../axios.js'
 import Chart from 'chart.js/auto'
-import Spinner from '../components/Spinner.vue';
+import Spinner from '../../components/Spinner.vue';
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 Chart.register(ChartDataLabels)
